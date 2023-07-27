@@ -123,6 +123,8 @@ namespace bSenpai.UdonProfiler
 
             sample_t parentSample = m_CurrentSample;
 
+            parentSample.AddEndTime();
+
             DataDictionary parentChildren = parentSample.GetChildren();
             if (!parentChildren.ContainsKey(name))
             {
@@ -145,6 +147,8 @@ namespace bSenpai.UdonProfiler
             m_CurrentSample.AddEndTime();
 
             sample_t parentSample = m_CurrentSample.GetParent();
+
+            parentSample.AddStartTime();
 
             m_CurrentSample = parentSample;
         }
