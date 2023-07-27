@@ -259,3 +259,19 @@ fabric.properties
 
 # idea folder, uncomment if you don't need it
 # .idea
+
+# Other
+UdonProfilerApp/.idea/
+
+UdonProfilerDemo/.vsconfig
+UdonProfilerDemo/Assets/.gitkeep
+UdonProfilerDemo/Assets/UdonSharp.meta
+UdonProfilerDemo/Assets/UdonSharp 1.meta
+UdonProfilerDemo/Assets/SerializedUdonPrograms.meta
+UdonProfilerDemo/Assets/SerializedUdonPrograms/
+UdonProfilerDemo/Assets/UdonSharp/
+UdonProfilerDemo/Library/
+UdonProfilerDemo/obj/
+UdonProfilerDemo/Packages/
+UdonProfilerDemo/ProjectSettings/
+UdonProfilerDemo/Temp/
