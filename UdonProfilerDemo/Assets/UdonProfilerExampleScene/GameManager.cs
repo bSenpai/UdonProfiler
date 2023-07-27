@@ -28,12 +28,8 @@ namespace bSenpai
         {
             if (m_Profiler)
             {
-                m_Profiler.BeginSample("FixedUpdate");
-
                 m_Profiler.BeginSample("Loop A");
                 PrintLoop("Hello Loop A", 10);
-                m_Profiler.EndSample();
-
                 m_Profiler.EndSample();
             }
         }
@@ -42,12 +38,8 @@ namespace bSenpai
         {
             if (m_Profiler)
             {
-                m_Profiler.BeginSample("Update");
-
                 m_Profiler.BeginSample("Loop B");
                 PrintLoop("Hello Loop B", 10);
-                m_Profiler.EndSample();
-
                 m_Profiler.EndSample();
             }
         }
@@ -56,12 +48,8 @@ namespace bSenpai
         {
             if (m_Profiler)
             {
-                m_Profiler.BeginSample("LateUpdate");
-
                 m_Profiler.BeginSample("Loop C");
                 PrintLoop("Hello Loop C", 10);
-                m_Profiler.EndSample();
-
                 m_Profiler.EndSample();
             }
         }
@@ -70,12 +58,8 @@ namespace bSenpai
         {
             if (m_Profiler)
             {
-                m_Profiler.BeginSample("PostLateUpdate");
-
                 m_Profiler.BeginSample("Loop D");
                 PrintLoop("Hello Loop D", 10);
-                m_Profiler.EndSample();
-
                 m_Profiler.EndSample();
             }
         }

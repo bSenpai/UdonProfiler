@@ -12,17 +12,51 @@ namespace bSenpai.UdonProfiler
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class Handler : UdonSharpBehaviour
     {
-        private Profiler m_Profiler;
+        private Profiler m_Profiler = null;
 
         private void Start()
         {
             m_Profiler = GetComponent<Profiler>();
+
+            if (m_Profiler == null)
+            {
+                Debug.LogError("Profiler script not attached to game object!");
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (m_Profiler)
+            {
+                m_Profiler.EndSample();
+            }
+        }
+
+        private void Update()
+        {
+            if (m_Profiler)
+            {
+                m_Profiler.EndSample();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (m_Profiler)
+            {
+                m_Profiler.EndSample();
+            }
         }
 
         // End frame at latest time possible.
         public override void PostLateUpdate()
         {
-            m_Profiler.EndFrame();
+            if (m_Profiler)
+            {
+                m_Profiler.EndSample();
+
+                m_Profiler.EndFrame();
+            }
         }
     }
 }

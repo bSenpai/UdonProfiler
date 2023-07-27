@@ -19,18 +19,52 @@ namespace bSenpai.UdonProfiler
         private void Start()
         {
             m_Profiler = GetComponent<Profiler>();
+
+            if (m_Profiler == null)
+            {
+                Debug.LogError("Profiler script not attached to game object!");
+            }
         }
 
         // Begin frame at earliest time possible.
         private void FixedUpdate()
         {
-            if (m_CurrentFrame != Time.frameCount)
+            if (m_Profiler)
             {
-                m_CurrentFrame = Time.frameCount;
-                if (m_Profiler && !m_Profiler.InFrame)
+                if (m_CurrentFrame != Time.frameCount)
                 {
-                    m_Profiler.BeginFrame();
+                    m_CurrentFrame = Time.frameCount;
+                    if (!m_Profiler.InFrame)
+                    {
+                        m_Profiler.BeginFrame();
+                    }
                 }
+
+                m_Profiler.BeginSample("FixedUpdate");
+            }
+        }
+
+        private void Update()
+        {
+            if (m_Profiler)
+            {
+                m_Profiler.BeginSample("Update");
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (m_Profiler)
+            {
+                m_Profiler.BeginSample("LateUpdate");
+            }
+        }
+
+        public override void PostLateUpdate()
+        {
+            if (m_Profiler)
+            {
+                m_Profiler.BeginSample("PostLateUpdate");
             }
         }
     }
