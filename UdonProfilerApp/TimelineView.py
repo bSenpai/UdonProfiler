@@ -29,13 +29,23 @@ class TimelineView(ctk.CTkFrame):
         colors = ["tab:blue", "tab:orange", "tab:purple", "tab:red"]
         start = frame_info.samples[0].start_times[0]
         for sample in frame_info.samples:
-            for block in list(zip(sample.start_times, sample.end_times)):
-                if block[1] - block[0] <= 0:
+            # Parent block covers entirety of child blocks.
+            if sample.depth < frame_info.max_depth:
+                delta: float = sample.end_times[-1] - sample.start_times[0]
+                if delta <= 0:
                     continue
 
                 self.timeline_plot.add_bar(sample.name, 0 - sample.depth * 2, 2,
-                                           block[0] - start, block[1] - start,
+                                           sample.start_times[0] - start, sample.end_times[-1] - start,
                                            colors[sample.depth % len(colors)], "yellow", 8)
+            else:
+                for block in list(zip(sample.start_times, sample.end_times)):
+                    if block[1] - block[0] <= 0:
+                        continue
+
+                    self.timeline_plot.add_bar(sample.name, 0 - sample.depth * 2, 2,
+                                               block[0] - start, block[1] - start,
+                                               colors[sample.depth % len(colors)], "yellow", 8)
 
         self.winfo_toplevel().update()
 

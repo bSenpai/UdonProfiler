@@ -55,7 +55,7 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         if start > end or (end - start) == 0:
             raise RuntimeError("bar plot size is invalid", start, end)
 
-        bar = self.axes.broken_barh([(start, end)], (y_start, height), facecolors=facecolor, edgecolor="black")
+        bar = self.axes.broken_barh([(start, end - start)], (y_start, height), facecolors=facecolor, edgecolor="black")
         self.bars.append(bar)
 
         y_lim_old: Tuple[float, float] = self.axes.get_ylim()
