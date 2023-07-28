@@ -100,6 +100,11 @@ class ControlPanel(ctk.CTkFrame):
         sel_frame, cur_frame = self.profiler.goto_frame(frame_num)
         self.set_frame_details(sel_frame, cur_frame)
 
+        # Pause frame chart animation.
+        self.do_record = False
+        self.record_btn.configure(text_color=ControlPanel.paused_color)
+        self.profiler.pause()
+
     def on_clear_frames_btn_clicked(self) -> None:
         self.profiler.clear_frames()
         self.set_frame_details(0, 0)
