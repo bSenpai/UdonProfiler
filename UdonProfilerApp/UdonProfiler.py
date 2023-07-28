@@ -169,7 +169,7 @@ class UdonProfiler(ctk.CTk):
         frame_info: Union[FrameInfo, None] = self.get_selected_frame_info()
         if frame_info:
             self.details_panel.on_frame_info_received(frame_info, selected=True)
-            self.frame_chart.on_frame_info_received(frame_info)
+            self.frame_chart.on_frame_info_received(frame_info, selected=True)
 
         return self.sel_frame_num, self.cur_frame_num
 

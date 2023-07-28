@@ -27,6 +27,8 @@ class FrameChart(ctk.CTkFrame):
         for i in range(0, 300):
             self.data.append(0)
 
+        self.frame_slice: Tuple[int, int] = (-1, -1)
+
         self.graph: AnimatedLinePlotWidget = AnimatedLinePlotWidget(
             self,
             height=50,
@@ -130,18 +132,40 @@ class FrameChart(ctk.CTkFrame):
         pass
 
     def on_mouse_clicked(self, coord: Tuple[float, float]) -> None:
-        self.sel_frame = int(coord[0])
+        # Range = [0, 299].
+        frame_offset: int = int(coord[0])
+
+        # Always update selected frame so that the chart displays vertical bar on mouse click position.
+        self.sel_frame = frame_offset
+
+        if self.frame_slice[1] is -1:
+            return
+
+        # Chart is half-full.
+        if self.frame_slice[1] < 299:
+            # Selection made before chart start position.
+            if frame_offset < 299 - self.frame_slice[1]:
+                return
+
+            frame_offset = abs((299 - self.frame_slice[1]) - frame_offset)
+
         root: Any = self.winfo_toplevel()
-        frame_num: int = root.cur_frame_num - 300 + self.sel_frame
+        frame_num: int = self.frame_slice[0] + frame_offset
         root.control_panel.on_frame_selected_from_chart(frame_num)
 
-    def on_frame_info_received(self, frame_info: FrameInfo) -> None:
-        self.data.append(frame_info.frame_time)
+    def on_frame_info_received(self, frame_info: FrameInfo, selected: bool = False) -> None:
+        # Don't update graph when selecting individual frames. Prevents frame shifting on click.
+        if not selected:
+            self.data.append(frame_info.frame_time)
+            self.frame_slice = (max(frame_info.frame_number - min(self.frame_slice[1], 299), 0),
+                                frame_info.frame_number)
 
     def on_frame_info_cleared(self) -> None:
         self.data.clear()
         for i in range(0, 300):
             self.data.append(0)
+
+        self.frame_slice = (-1, -1)
 
         self.graph.clear()
         self.sel_frame = -1
