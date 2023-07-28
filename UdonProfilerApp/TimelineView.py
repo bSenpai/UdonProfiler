@@ -13,7 +13,7 @@ class TimelineView(ctk.CTkFrame):
         self.grid_rowconfigure(0, weight=1)
 
         self.timeline_plot: TimelineBarPlotWidget = TimelineBarPlotWidget(self)
-        self.timeline_plot.grid(row=0, column=0, sticky="nsew")
+        self.timeline_plot.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
         '''
         colors = ["tab:blue", "tab:orange", "tab:purple", "tab:red"]

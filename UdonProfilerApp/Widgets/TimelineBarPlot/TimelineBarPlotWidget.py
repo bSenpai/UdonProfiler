@@ -22,7 +22,8 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         # plt.style.use("../../mplstyles/dracula.mplstyle")
         plt.style.use("./mplstyles/dracula.mplstyle")
 
-        self.figure: mpl.Figure = plt.figure(dpi=100)
+        # TODO: Find a more permanent solution to graph size. Dpi of 74 is a temp fix.
+        self.figure: mpl.Figure = plt.figure(dpi=74)
         # self.axes: mpl.axes.Axes = self.figure.add_subplot(111)
 
         # Force graph to fill window.
