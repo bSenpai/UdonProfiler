@@ -7,12 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.transforms import Bbox, TransformedBbox
 
-
-# Custom toolbar.
-# See: https://stackoverflow.com/a/59658768
-class CTkNavigationToolbar(NavigationToolbar2Tk):
-    def __init__(self, canvas, window, *, pack_toolbar=True):
-        NavigationToolbar2Tk.__init__(self, canvas=canvas, window=window, pack_toolbar=pack_toolbar)
+from Widgets.NavigationToolbar.NavigationToolbar2CTk import NavigationToolbar2CTk
 
 
 class TimelineBarPlotWidget(ctk.CTkFrame):
@@ -109,7 +104,7 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         plt.style.use("./mplstyles/dracula.mplstyle")
 
         # TODO: Find a more permanent solution to graph size. Dpi of 74 is a temp fix.
-        self.figure: mpl.Figure = plt.figure(dpi=74)
+        self.figure: mpl.Figure = plt.figure(dpi=65)
 
         # Force graph to fill window.
         # Source: https://stackoverflow.com/a/42620544
@@ -134,9 +129,14 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         self.canvas: FigureCanvasTkAgg = FigureCanvasTkAgg(self.figure, self)
         self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
 
-        self.toolbar = CTkNavigationToolbar(self.canvas, self, pack_toolbar=False)
-        self.toolbar.configure(background="#282A36")
+        # Remove unnecessary toolbar buttons.
+        # See: https://stackoverflow.com/a/59156387
+        NavigationToolbar2CTk.toolitems = [t for t in NavigationToolbar2CTk.toolitems if t[0] not in
+                                           ('Back', 'Forward', 'Subplots', 'Save')]
+
+        self.toolbar = NavigationToolbar2CTk(self.canvas, self, pack_toolbar=False)
         # print(self.toolbar.configure().keys())
+        self.toolbar.configure(background="#282A36")
         for button in self.toolbar.winfo_children():
             button.configure(background="#282A36")
         self.toolbar.grid(row=1, column=0, sticky="ew")
