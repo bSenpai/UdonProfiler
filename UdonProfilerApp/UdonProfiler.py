@@ -12,6 +12,7 @@ from Src.FrameInfo import FrameInfo
 from Src.FrameChart import FrameChart
 from Src.DetailsPanel import DetailsPanel
 from Src.ControlPanel import ControlPanel
+from Utils.PathResolver import resource_path
 
 
 class UdonProfiler(ctk.CTk):
@@ -31,6 +32,7 @@ class UdonProfiler(ctk.CTk):
 
         self.title("Udon Profiler")
         self.geometry("950x950")
+        self.iconbitmap(resource_path("Assets\\UdonProfiler.ico"))
 
         # Layout:
         #   Control Panel
