@@ -7,11 +7,11 @@ import os
 import tkinter as tk
 import customtkinter as ctk
 
-from Lib.Sample import Sample
-from Lib.FrameInfo import FrameInfo
-from Lib.FrameChart import FrameChart
-from Lib.DetailsPanel import DetailsPanel
-from Lib.ControlPanel import ControlPanel
+from Src.Sample import Sample
+from Src.FrameInfo import FrameInfo
+from Src.FrameChart import FrameChart
+from Src.DetailsPanel import DetailsPanel
+from Src.ControlPanel import ControlPanel
 
 
 class UdonProfiler(ctk.CTk):
