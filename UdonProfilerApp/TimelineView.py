@@ -25,7 +25,7 @@ class TimelineView(ctk.CTkFrame):
         for i in range(0, 50):
             h = 1 - TimelineView.bar_height - i * TimelineView.bar_height
             c = TimelineView.colors[i % len(TimelineView.colors)]
-            self.timeline_plot.add_bar("VeryLongTextLabel", h, TimelineView.bar_height, 5, 15, c,
+            self.timeline_plot.add_bar(f"VeryLongTextLabel #{i}", h, TimelineView.bar_height, 5, 15, c,
                                        TimelineView.text_color, TimelineView.font_size)
 
     def on_frame_info_received(self, frame_info: FrameInfo) -> None:

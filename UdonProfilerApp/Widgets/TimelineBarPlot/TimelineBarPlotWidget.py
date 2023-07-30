@@ -6,6 +6,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.transforms import Bbox, TransformedBbox
+from matplotlib.collections import BrokenBarHCollection
 
 from Widgets.NavigationToolbar.NavigationToolbar2CTk import NavigationToolbar2CTk
 
@@ -125,6 +126,8 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
 
         self.bars = list()
         self.annotations = list()
+        self.bar_names = dict()
+        self.bar_infos = dict()
 
         self.canvas: FigureCanvasTkAgg = FigureCanvasTkAgg(self.figure, self)
         self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
@@ -149,6 +152,13 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         # self.scrollbar["command"] = self.canvas.get_tk_widget().xview
         # self.canvas.get_tk_widget()["xscrollcommand"] = self.scrollbar.set
 
+        # Tooltip setup.
+        # See: https://stackoverflow.com/a/66501612
+        self.tooltip = self.axes.annotate("", xy=(0, 0), xytext=(20, -20), textcoords="offset points", fontsize=12,
+                                          bbox=dict(boxstyle="round", fc="#282A36", ec="#F8F8F2", lw=2))
+
+        self.figure.canvas.mpl_connect("motion_notify_event", lambda event: self.on_hover(event))
+
         self.canvas.draw()
 
     def add_bar(self, name: str, y_start: float, height: float, start: float, end: float, facecolor: str,
@@ -157,6 +167,17 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
             raise RuntimeError("bar plot size is invalid", start, end)
 
         bar = self.axes.broken_barh([(start, end - start)], (y_start, height), facecolors=facecolor, edgecolor="black")
+
+        # Store information for tooltip.
+        self.bar_names[bar] = name
+        if name not in self.bar_infos.keys():
+            self.bar_infos[name] = dict()
+            self.bar_infos[name]["instances"] = 1
+            self.bar_infos[name]["total_duration"] = end - start
+        else:
+            self.bar_infos[name]["instances"] += 1
+            self.bar_infos[name]["total_duration"] += end - start
+
         self.bars.append(bar)
 
         # Don't set y lim to allow vertical scrolling. Doing otherwise would force graph to fit all bars in single view.
@@ -199,11 +220,49 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
 
         self.annotations.clear()
 
+        self.bar_names.clear()
+        self.bar_infos.clear()
+
         self.axes.set_ylim(0, 1)
         self.axes.set_xlim(0, 1)
 
         self.figure.canvas.restore_region(self.background)
         self.figure.canvas.blit(self.axes.bbox)
+
+    def update_tooltip(self, bars: BrokenBarHCollection, ind: int, x: float, y: float) -> None:
+        # Update tooltip when hovering over bar.
+        # See: https://stackoverflow.com/a/66501612
+        self.tooltip.xy = (x, y)
+        box = bars.get_paths()[ind].get_extents()
+
+        # Prepare tooltip display info. Emulate Unity's tooltip info.
+        name: str = self.bar_names[bars]
+        duration: float = box.x1 - box.x0
+        instances: int = self.bar_infos[name]["instances"]
+        total_duration: float = self.bar_infos[name]["total_duration"]
+        text = f"{name}\n{duration:.0f}ms"
+        if instances > 1:
+            text += f"\nTotal:{total_duration:.0f}ms ({instances} Instances)"
+
+        self.tooltip.set_text(text)
+        self.tooltip.get_bbox_patch().set_alpha(0.9)
+
+    def on_hover(self, event) -> None:
+        # Handle mouse hover event.
+        # See: https://stackoverflow.com/a/66501612
+        vis = self.tooltip.get_visible()
+        if event.inaxes == self.axes:
+            for _, bars in enumerate(self.axes.collections):
+                bar_contains, ind = bars.contains(event)
+                if bar_contains:
+                    self.update_tooltip(bars, ind['ind'][0], event.xdata, event.ydata)
+                    self.tooltip.set_visible(True)
+                    self.figure.canvas.draw_idle()
+                    return
+
+        if vis:
+            self.tooltip.set_visible(False)
+            self.figure.canvas.draw_idle()
 
 
 if __name__ == "__main__":
