@@ -8,7 +8,17 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.transforms import Bbox, TransformedBbox
 
 
+# Custom toolbar.
+# See: https://stackoverflow.com/a/59658768
+class CTkNavigationToolbar(NavigationToolbar2Tk):
+    def __init__(self, canvas, window, *, pack_toolbar=True):
+        NavigationToolbar2Tk.__init__(self, canvas=canvas, window=window, pack_toolbar=pack_toolbar)
+
+
 class TimelineBarPlotWidget(ctk.CTkFrame):
+    # Create scrollable matplotlib frame. Doesn't work?
+    # See: https://stackoverflow.com/a/74929672
+    """
     def __init__(self, *args,
                  width: int = 350,
                  height: int = 500,
@@ -17,14 +27,13 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_rowconfigure(2, weight=0)
 
         mpl.use("TkAgg")
-        # plt.style.use("../../mplstyles/dracula.mplstyle")
         plt.style.use("./mplstyles/dracula.mplstyle")
 
-        # TODO: Find a more permanent solution to graph size. Dpi of 74 is a temp fix.
         self.figure: mpl.Figure = plt.figure(dpi=74)
-        # self.axes: mpl.axes.Axes = self.figure.add_subplot(111)
 
         # Force graph to fill window.
         # Source: https://stackoverflow.com/a/42620544
@@ -33,8 +42,32 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
 
         self.background = self.figure.canvas.copy_from_bbox(self.axes.bbox)
 
-        self.canvas: FigureCanvasTkAgg = FigureCanvasTkAgg(self.figure, self)
-        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+        self.x_scrollbar = ctk.CTkScrollbar(self, orientation="horizontal")
+        self.x_scrollbar.grid(row=2, column=0, sticky="ew")
+
+        canvas = ctk.CTkCanvas(self, xscrollcommand=self.x_scrollbar.set)
+        canvas.grid(row=0, column=0, sticky="nsew")
+        self.x_scrollbar.configure(command=canvas.xview)
+
+        canvas.xview_moveto(0)
+        canvas.yview_moveto(0)
+
+        self.interior = interior = ctk.CTkFrame(canvas)
+        interior_id = canvas.create_window(0, 0, window=interior, anchor="nw")
+
+        def _configure_interior(event) -> None:
+            size = (interior.winfo_reqwidth(), interior.winfo_reqheight())
+            canvas.configure(scrollregion="0 0 %s %s" % size)
+            if interior.winfo_reqwidth() != canvas.winfo_width():
+                canvas.configure(width=interior.winfo_reqwidth())
+
+        interior.bind("<Configure>", _configure_interior)
+
+        def _configure_canvas(event) -> None:
+            if interior.winfo_reqwidth() != canvas.winfo_width():
+                canvas.itemconfigure(interior_id, width=canvas.winfo_width())
+
+        canvas.bind("<Configure>", _configure_canvas)
 
         self.axes.set_ylim(0, 1)
         self.axes.set_xlim(0, 1)
@@ -49,6 +82,73 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         self.bars = list()
         self.annotations = list()
 
+        self.canvas: FigureCanvasTkAgg = FigureCanvasTkAgg(self.figure, self.interior)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack(side="top", fill="both", expand=True)
+
+        # Allow matplotlib toolbar to work with grid layout.
+        # See: https://stackoverflow.com/a/51018685
+        self.toolbar_frame = ctk.CTkFrame(self)
+        self.toolbar_frame.grid(row=1, column=0, sticky="ew")
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self.toolbar_frame)
+        self.toolbar.update()
+    """
+
+    def __init__(self, *args,
+                 width: int = 350,
+                 height: int = 500,
+                 **kwargs) -> None:
+        super().__init__(*args, width=width, height=height, **kwargs)
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure((1, 2), weight=0)
+
+        mpl.use("TkAgg")
+        # plt.style.use("../../mplstyles/dracula.mplstyle")
+        plt.style.use("./mplstyles/dracula.mplstyle")
+
+        # TODO: Find a more permanent solution to graph size. Dpi of 74 is a temp fix.
+        self.figure: mpl.Figure = plt.figure(dpi=74)
+
+        # Force graph to fill window.
+        # Source: https://stackoverflow.com/a/42620544
+        self.axes: mpl.axes.Axes = self.figure.add_axes([0.025, 0.00625, .95, 0.925])
+        self.axes.margins(0)
+
+        self.background = self.figure.canvas.copy_from_bbox(self.axes.bbox)
+
+        self.axes.set_ylim(0, 1)
+        self.axes.set_xlim(0, 1)
+        self.axes.set_yticks([])
+        self.axes.set_yticklabels([])
+
+        # Set axes at top of graph.
+        # See: https://stackoverflow.com/a/14406447
+        self.axes.xaxis.tick_top()
+        self.axes.grid(True, axis="x", alpha=0.5)
+
+        self.bars = list()
+        self.annotations = list()
+
+        self.canvas: FigureCanvasTkAgg = FigureCanvasTkAgg(self.figure, self)
+        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+
+        self.toolbar = CTkNavigationToolbar(self.canvas, self, pack_toolbar=False)
+        self.toolbar.configure(background="#282A36")
+        # print(self.toolbar.configure().keys())
+        for button in self.toolbar.winfo_children():
+            button.configure(background="#282A36")
+        self.toolbar.grid(row=1, column=0, sticky="ew")
+        self.toolbar.update()
+
+        # Scrollbar. Doesn't work?
+        # See: https://stackoverflow.com/a/56090565
+        # self.scrollbar = ctk.CTkScrollbar(self, orientation="horizontal")
+        # self.scrollbar.grid(row=2, column=0, sticky="ew")
+        # self.scrollbar["command"] = self.canvas.get_tk_widget().xview
+        # self.canvas.get_tk_widget()["xscrollcommand"] = self.scrollbar.set
+
         self.canvas.draw()
 
     def add_bar(self, name: str, y_start: float, height: float, start: float, end: float, facecolor: str,
@@ -59,9 +159,10 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         bar = self.axes.broken_barh([(start, end - start)], (y_start, height), facecolors=facecolor, edgecolor="black")
         self.bars.append(bar)
 
-        y_lim_old: Tuple[float, float] = self.axes.get_ylim()
-        y_lim_new: Tuple[float, float] = (min(y_lim_old[0], y_start - height), max(y_lim_old[1], y_start + height))
-        self.axes.set_ylim(y_lim_new)
+        # Don't set y lim to allow vertical scrolling. Doing otherwise would force graph to fit all bars in single view.
+        # y_lim_old: Tuple[float, float] = self.axes.get_ylim()
+        # y_lim_new: Tuple[float, float] = (min(y_lim_old[0], y_start - height), max(y_lim_old[1], y_start + height))
+        # self.axes.set_ylim(y_lim_new)
 
         x_lim_old: Tuple[float, float] = self.axes.get_xlim()
         x_lim_new: Tuple[float, float] = (min(x_lim_old[0], start), max(x_lim_old[1], end))
