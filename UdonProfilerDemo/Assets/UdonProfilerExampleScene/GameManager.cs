@@ -30,6 +30,11 @@ namespace bSenpai
             {
                 m_Profiler.BeginSample("Loop A");
                 PrintLoop("Hello Loop A", 10);
+
+                m_Profiler.BeginSample("A");
+                PrintLoop("A", 10);
+                m_Profiler.EndSample();
+
                 m_Profiler.EndSample();
             }
         }
