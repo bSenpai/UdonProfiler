@@ -9,6 +9,7 @@ from matplotlib.transforms import Bbox, TransformedBbox
 from matplotlib.collections import BrokenBarHCollection
 
 from Widgets.NavigationToolbar.NavigationToolbar2CTk import NavigationToolbar2CTk
+from Utils.PathResolver import resource_path
 
 
 class TimelineBarPlotWidget(ctk.CTkFrame):
@@ -101,8 +102,7 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         self.grid_rowconfigure((1, 2), weight=0)
 
         mpl.use("TkAgg")
-        # plt.style.use("../../mplstyles/dracula.mplstyle")
-        plt.style.use("./mplstyles/dracula.mplstyle")
+        plt.style.use(resource_path("Assets\\dracula.mplstyle"))
 
         # TODO: Find a more permanent solution to graph size. Dpi of 74 is a temp fix.
         self.figure: mpl.Figure = plt.figure(dpi=65)

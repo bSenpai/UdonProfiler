@@ -12,6 +12,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.animation import FuncAnimation
 import numpy as np
 
+from Utils.PathResolver import resource_path
+
 
 class PlotItemType(Enum):
     LINE = 1
@@ -62,7 +64,7 @@ class AnimatedLinePlotWidget(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
 
         mpl.use("TkAgg")
-        plt.style.use("./mplstyles/dracula.mplstyle")
+        plt.style.use(resource_path("Assets\\dracula.mplstyle"))
 
         self.figure: mpl.Figure = plt.figure(dpi=100)
 
