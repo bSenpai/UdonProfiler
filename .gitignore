@@ -260,6 +260,9 @@ fabric.properties
 # idea folder, uncomment if you don't need it
 # .idea
 
+# VSCode
+.vscode/
+
 # Other
 UdonProfilerApp/.idea/
 
@@ -275,3 +278,5 @@ UdonProfilerDemo/obj/
 UdonProfilerDemo/Packages/
 UdonProfilerDemo/ProjectSettings/
 UdonProfilerDemo/Temp/
+
+UdonProfilerTest/
