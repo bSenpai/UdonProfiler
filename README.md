@@ -1,7 +1,7 @@
 # UdonProfiler
 
 <p align="center">
-  <img width="934" height="934" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/logo.png">
+  <img src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/logo.png">
 </p>
 
 <p align="center">
