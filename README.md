@@ -1,8 +1,12 @@
 # UdonProfiler
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/logo.png)
+<p align="center">
+  <img width="1024" height="1024" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/logo.png">
+</p>
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/demo.gif)
+<p align="center">
+  <img width="934" height="936" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/demo.gif">
+</p>
 
 ## Table of Content
 * [About](#about)
@@ -37,7 +41,9 @@ for interfacing with the profiler and GUI.
 2. Run UdonProfiler-v1.0.exe to start the setup process. At the end of the setup process, you should have an application installed on your computer called UdonProfiler.
 If you opted to create a desktop shortcut, you should see the following:
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/desktop-shortcut)
+<p align="center">
+  <img width="97" height="97" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/desktop-shortcut.png">
+</p>
 
 3. Drag and drop UdonProfiler-v1.0.unitypackage into an active Unity project for a VRChat world you're working on.
 
@@ -84,25 +90,33 @@ If you opted to create a desktop shortcut, you should see the following:
 
 ### Control Panel
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/control-panel)
+<p align="center">
+  <img width="940" height="48" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/control-panel.png">
+</p>
 
 At the top of the GUI, you have the control panel. Here, you can start and pause recording, iterate through recorded frames, and clear the application of all current frames. You can also see the current frame number and total frames recorded so far.
 
 ### Frame Chart
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/frame-chart)
+<p align="center">
+  <img width="940" height="474" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/frame-chart.png">
+</p>
 
 Below the control panel sits the frame chart. Here, you get a live-view of your Unity application's frame timings. Clicking anywhere on the graph will pause the live-view (but won't pause recording) and populate the views below with information about the current frame that you selected from the graph.
 
 ### Details Panel 
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/details-panel)
+<p align="center">
+  <img width="940" height="78" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/details-panel.png">
+</p>
 
 Below the frame chart sits the details panel. Here, you get three different views: hierarchy view, timeline view, and statistics view.
 
 #### Hierarchy View
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/hierarchy-view)
+<p align="center">
+  <img width="936" height="318" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/hierarchy-view.png">
+</p>
 
 The hierarchy view displays the current frame information in a hierarchical order - sorted by call order initially. This is meant to mimic Unity Profiler's hierarchy view.
 
@@ -110,11 +124,11 @@ Each sample contains information about the total time it took (in both percentag
 
 If you haven't set any sample points, you should see the default sample called ```UdonBehaviour```. Clicking the expand arrow will show the children of the current sample. By default, ```UdonBehaviour``` has children for each core stage in the Unity scripting pipeline, that is: ```FixedUpdate```, ```Update```, ```LateUpdate```, and ```PostLateUpdate``` (see https://docs.unity3d.com/Manual/ExecutionOrder.html for more information). Your samples will always belong to, and as a result be children of, one of these samples.
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/hierarchy-view-expanded)
-
 #### Timeline View
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/timeline-view)
+<p align="center">
+  <img width="934" height="333" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/timeline-view.png">
+</p>
 
 The timeline view displays allows you to see when each call to a given sample was made. This was meant to mimic Unity Profiler's timeline view.
 
@@ -124,7 +138,9 @@ Hovering over a bar gives you additional information about the sample, namely it
 
 #### Statistics View
 
-![alt text](https://github.com/bSenpai/UdonProfiler/blob/main/resources/statistics-view)
+<p align="center">
+  <img width="936" height="334" src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/statistics-view.png">
+</p>
 
 The statistics view shows general statistics for samples collected. This view is unique to UdonProfiler, and is meant to give a quick overview of how each sample is performing on an overall basis.
 
