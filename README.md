@@ -156,7 +156,7 @@ The ```Kickoff``` script aims to run before any other scripts run by using a low
 
 The ```Profiler``` script provides the interface for collecting sample information for each frame.
 
-The ```Kickoff``` script starts a new frame inside the ```FixedUpdate``` loop, as it is the first loop to run (see Unity), while the ```Handler``` script ends the current frame in the ```PostLateUpdate``` loop, as its the last loop to run.
+The ```Kickoff``` script starts a new frame inside the ```FixedUpdate``` loop, as it is the first loop to run (see [Unity](https://docs.unity3d.com/Manual/ExecutionOrder.html)), while the ```Handler``` script ends the current frame in the ```PostLateUpdate``` loop, as its the last loop to run.
 
 For each ```BeginSample``` and ```EndSample``` pair, the ```Profiler``` script stores the sample information (timing, number of calls, etc.) inside a ```DataDictionary``` object. Since a given sample can contain child samples (think nested function calls), this object is recursive in nature, using a data structure similar to that of an n-ary tree. The ```BeginFrame``` creates the tree and its root for the current frame.
 
