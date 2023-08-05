@@ -1,10 +1,9 @@
-﻿using bSenpai.UdonProfiler;
-using UdonSharp;
+﻿using UdonSharp;
 using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
 
-namespace bSenpai
+using bSenpai.UdonProfiler;
+
+namespace bSenpai.UdonProfilerDemo
 {
 
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]

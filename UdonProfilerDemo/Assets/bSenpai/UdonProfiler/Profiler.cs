@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using UdonSharp;
-
 using VRC.SDK3.Data;
 
 using sample_t = VRC.SDK3.Data.DataDictionary;
