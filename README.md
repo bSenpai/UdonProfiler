@@ -60,7 +60,7 @@ If you opted to create a desktop shortcut, you should see the following:
     profiler.EndSample();
     ```
 
-  * See the [demo game manager script](./UdonProfilerDemo/Assets/bSenpai/UdonProfilerExampleScene/GameManager.cs) for more examples.
+  * See the [demo game manager script](./UdonProfilerDemo/Assets/bSenpai/UdonProfiler/UdonProfilerExampleScene/GameManager.cs) for more examples.
 
 2. Launch the UdonProfiler application (see [GUI Interface](#gui-interface) for more information).
 
