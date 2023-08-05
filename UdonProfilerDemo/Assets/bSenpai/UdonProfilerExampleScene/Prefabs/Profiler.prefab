@@ -58,6 +58,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 5987335693817393364}
+  ScriptEnabled: 1
 --- !u!114 &5987335693817393364
 MonoBehaviour:
   m_ObjectHideFlags: 0

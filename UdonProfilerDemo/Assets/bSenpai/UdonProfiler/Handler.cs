@@ -26,7 +26,7 @@ namespace bSenpai.UdonProfiler
 
         private void FixedUpdate()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.EndSample();
             }
@@ -34,7 +34,7 @@ namespace bSenpai.UdonProfiler
 
         private void Update()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.EndSample();
             }
@@ -42,7 +42,7 @@ namespace bSenpai.UdonProfiler
 
         private void LateUpdate()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.EndSample();
             }
@@ -51,7 +51,7 @@ namespace bSenpai.UdonProfiler
         // End frame at latest time possible.
         public override void PostLateUpdate()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.EndSample();
 

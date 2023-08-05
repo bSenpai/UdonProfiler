@@ -66,7 +66,7 @@ If you opted to create a desktop shortcut, you should see the following:
 
 3. Click the record button to start listening for Unity messages.
 
-4. Enter Play Mode in your Unity Project. Make sure the ```Profiler``` prefab is included in your scene and is not inactive. You should see a continuous stream of messages under your Unity Console (see [How It Works](#how-it-works) if you want to know what the messages represent).
+4. Enter Play Mode in your Unity Project. Make sure the ```Profiler``` prefab is included in your scene, is active and has its ```Script Enabled``` field checked. You should see a continuous stream of messages under your Unity Console (see [How It Works](#how-it-works) if you want to know what the messages represent).
 
 5. After confirming that the messages are being output to your console, check the UdonProfiler application. You should see new information being populated in the application. The GUI application is designed to mimic Unity's Profiler GUI, so it should look familiar if you're already experienced with it. 
 
@@ -82,7 +82,9 @@ If you opted to create a desktop shortcut, you should see the following:
 
 * If you're making use of default execution order for your own custom scripts, make sure the values don't exceed the lower and upper limits imposed by the profiler (currently at -2 million and +2 million) (see [How It Works](#how-it-works) for more information).
 
-* The profiling script comes with some overhead, so make sure you only have it active in your scene during testing and development, and ideally only when you're actively measuring your project's performance. 
+* The profiling script comes with some overhead, so make sure you only have it running during testing and development, and ideally only when you're actively measuring your project's performance.
+
+* To deactivate the profiler, uncheck the ```Script Enabled``` field under the ```Profiler``` script in your scene. This field can be alternatively toggled via a script if you choose to do so.
 
 * When not in use, you'll notice the application takes up a little CPU overhead (see [How It Works](#how-it-works) for more information). Hence, when not in use for extended periods of time, it's recommended to just close the application.
 

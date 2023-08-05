@@ -29,7 +29,7 @@ namespace bSenpai.UdonProfiler
         // Begin frame at earliest time possible.
         private void FixedUpdate()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 if (m_CurrentFrame != Time.frameCount)
                 {
@@ -46,7 +46,7 @@ namespace bSenpai.UdonProfiler
 
         private void Update()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.BeginSample("Update");
             }
@@ -54,7 +54,7 @@ namespace bSenpai.UdonProfiler
 
         private void LateUpdate()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.BeginSample("LateUpdate");
             }
@@ -62,7 +62,7 @@ namespace bSenpai.UdonProfiler
 
         public override void PostLateUpdate()
         {
-            if (m_Profiler)
+            if (m_Profiler && m_Profiler.ScriptEnabled)
             {
                 m_Profiler.BeginSample("PostLateUpdate");
             }

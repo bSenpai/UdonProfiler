@@ -11,6 +11,8 @@ namespace bSenpai.UdonProfiler
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public class Profiler : UdonSharpBehaviour
     {
+        public bool ScriptEnabled = true;
+
         private sample_t m_FrameSample = null;
 
         private sample_t m_CurrentSample = null;
@@ -24,6 +26,11 @@ namespace bSenpai.UdonProfiler
 
         public void BeginFrame()
         {
+            if (!ScriptEnabled || m_InFrame)
+            {
+                return;
+            }
+
             m_InFrame = true;
 
             m_CurrentFrame++;
@@ -43,7 +50,7 @@ namespace bSenpai.UdonProfiler
 
         public void EndFrame()
         {
-            if (!m_InFrame)
+            if (!ScriptEnabled || !m_InFrame)
             {
                 return;
             }
@@ -116,7 +123,7 @@ namespace bSenpai.UdonProfiler
 
         public void BeginSample(string name)
         {
-            if (!m_InFrame)
+            if (!ScriptEnabled || !m_InFrame)
             {
                 return;
             }
@@ -139,7 +146,7 @@ namespace bSenpai.UdonProfiler
 
         public void EndSample()
         {
-            if (!m_InFrame)
+            if (!ScriptEnabled || !m_InFrame)
             {
                 return;
             }
