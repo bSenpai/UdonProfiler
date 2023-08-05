@@ -38,14 +38,14 @@ which was the original reason behind the making of this application.
 1. Download the latest release [here](https://github.com/bSenpai/UdonProfiler/releases/latest). The UdonProfiler zip file contains a setup executable for the GUI application, and a unitypackage 
 for interfacing with the profiler and GUI. 
 
-2. Run UdonProfiler-v1.0.exe to start the setup process. At the end of the setup process, you should have an application installed on your computer called Udon Profiler.
+2. Run exe to start the setup process. At the end of the setup process, you should have an application installed on your computer called Udon Profiler.
 If you opted to create a desktop shortcut, you should see the following:
 
 <p align="center">
   <img src="https://github.com/bSenpai/UdonProfiler/blob/main/resources/desktop-shortcut.png">
 </p>
 
-3. Drag and drop UdonProfiler-v1.0.unitypackage into an active Unity project for a VRChat world you're working on.
+3. Drag and drop unitypackage into an active Unity project for a VRChat world you're working on.
 
 4. Copy the ```Profiler``` prefab found under ```bSenpai/UdonProfiler/UdonProfilerExampleScene/Prefabs``` into the scene.
 
