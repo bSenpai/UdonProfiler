@@ -1,3 +1,5 @@
+import platform
+
 from typing import Any
 
 import customtkinter as ctk
@@ -5,10 +7,16 @@ import customtkinter as ctk
 
 class ControlPanel(ctk.CTkFrame):
     # See: https://en.wikipedia.org/wiki/Media_control_symbols
-    record_sym: str = "\u23fa"
-    back_sym: str = "\u23ea"
-    forward_sym: str = "\u23e9"
-    end_sym: str = "\u23ed"
+    if platform.system() == "Windows":
+        record_sym: str = "\u23fa"
+        back_sym: str = "\u23ea"
+        forward_sym: str = "\u23e9"
+        end_sym: str = "\u23ed"
+    else:
+        record_sym: str = "rec"
+        back_sym: str = "back"
+        forward_sym: str = "fwd"
+        end_sym: str = "end"
     recording_color: str = "#EE4B2B"
     paused_color: str = "#FFFFFF"
 
