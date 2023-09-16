@@ -13,7 +13,7 @@ echo Installing Python ...
         sudo $package_manager install $python_version-dev >/dev/null
         sudo $package_manager install python3-pip >/dev/null
         sudo $package_manager install $python_version-venv >/dev/null
-        pip3 install --upgrade pip >/dev/null
+        pip3 install --upgrade pip >/dev/null 2>&1
 echo Python installed successfully
 
 echo Installing Tkinter ...
