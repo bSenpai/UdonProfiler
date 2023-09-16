@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from typing import Iterator, List, TextIO, Tuple, Union
 
 import os
+import platform
 
 import tkinter as tk
 import customtkinter as ctk
@@ -32,7 +35,12 @@ class UdonProfiler(ctk.CTk):
 
         self.title("Udon Profiler")
         self.geometry("950x950")
-        self.iconbitmap(resource_path("Assets\\UdonProfiler.ico"))
+        if platform.system() == "Windows":
+            self.iconbitmap(resource_path(Path("./Assets/UdonProfiler.ico")))
+        else:
+            # See: https://stackoverflow.com/a/75579809
+            self.iconphoto(False, tk.PhotoImage(file="./Assets/UdonProfiler.png"))
+
 
         # Layout:
         #   Control Panel
@@ -210,7 +218,12 @@ if __name__ == "__main__":
 
     # See: https://stackoverflow.com/a/52534405
     #      https://docs.unity3d.com/Manual/LogFiles.html
-    log_file: str = path.expandvars(r"%LOCALAPPDATA%\Unity\Editor\Editor.log")
+    if platform.system() == "Windows":
+        log_file: str = path.expandvars(r"%LOCALAPPDATA%\Unity\Editor\Editor.log")
+    elif platform.system() == "Linux":
+        log_file: str = os.path.expanduser("~/.config/unity3d/Editor.log")
+    else:
+        log_file: str = os.path.expanduser("~/Library/Logs/Unity/Editor.log")
 
     app: UdonProfiler = UdonProfiler(log_file)
     app.run()

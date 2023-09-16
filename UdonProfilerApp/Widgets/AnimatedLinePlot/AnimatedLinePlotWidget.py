@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Tuple, Union
@@ -64,7 +66,7 @@ class AnimatedLinePlotWidget(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
 
         mpl.use("TkAgg")
-        plt.style.use(resource_path("Assets\\dracula.mplstyle"))
+        plt.style.use(resource_path(Path("Assets/dracula.mplstyle")))
 
         self.figure: mpl.Figure = plt.figure(dpi=100)
 

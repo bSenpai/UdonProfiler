@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from typing import List, Tuple
 
 import customtkinter as ctk
@@ -102,7 +104,7 @@ class TimelineBarPlotWidget(ctk.CTkFrame):
         self.grid_rowconfigure((1, 2), weight=0)
 
         mpl.use("TkAgg")
-        plt.style.use(resource_path("Assets\\dracula.mplstyle"))
+        plt.style.use(resource_path(Path("Assets/dracula.mplstyle")))
 
         # TODO: Find a more permanent solution to graph size. Dpi of 74 is a temp fix.
         self.figure: mpl.Figure = plt.figure(dpi=65)
